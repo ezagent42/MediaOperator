@@ -3,6 +3,15 @@
     "allow": [],
     "deny": []
   },
+  "enabledPlugins": {
+    "commit-commands@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "remember@claude-plugins-official": true,
+    "agent-browser@agent-browser": true,
+    "positioning-statement@pm-skills": true
+  },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
       "source": {
@@ -10,19 +19,17 @@
         "repo": "anthropics/claude-plugins-official"
       }
     },
-    "agent-setup": {
+    "agent-browser": {
       "source": {
-        "source": "git",
-        "url": "https://github.com/ezagent42/agent-setup.git"
+        "source": "github",
+        "repo": "vercel-labs/agent-browser"
+      }
+    },
+    "pm-skills": {
+      "source": {
+        "source": "github",
+        "repo": "deanpeters/Product-Manager-Skills"
       }
     }
-  },
-  "enabledPlugins": {
-    "agent-setup@agent-setup": true,
-    "commit-commands@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true,
-    "context7@claude-plugins-official": true,
-    "remember@claude-plugins-official": true
   }
 }

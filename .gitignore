@@ -9,3 +9,9 @@ dist/
 
 # Claude Code plugin runtime state
 .remember/
+
+# Launcher per-developer overrides (proxy, API keys, aliases)
+media-operator.local.sh
+
+# MCP server secrets (API keys, tokens)
+.mcp.env
