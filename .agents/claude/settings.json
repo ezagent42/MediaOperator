@@ -2,5 +2,27 @@
   "permissions": {
     "allow": [],
     "deny": []
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "agent-setup": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/ezagent42/agent-setup.git"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "agent-setup@agent-setup": true,
+    "commit-commands@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "remember@claude-plugins-official": true
   }
 }
