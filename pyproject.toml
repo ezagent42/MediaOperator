@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "MediaOpertor"
+version = "0.1.0"
+description = "Media operation automation workspace."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+authors = [
+  { name = "H2OS Labs" },
+]
+dependencies = []
+
+[project.scripts]
+mediaopertor = "mediaopertor.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mediaopertor"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
