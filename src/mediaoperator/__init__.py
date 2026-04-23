@@ -1,4 +1,4 @@
-"""MediaOpertor package."""
+"""MediaOperator package."""
 
 __all__ = ["__version__"]
 

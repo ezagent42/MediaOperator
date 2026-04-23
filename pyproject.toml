@@ -3,7 +3,7 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "MediaOpertor"
+name = "MediaOperator"
 version = "0.1.0"
 description = "Media operation automation workspace."
 readme = "README.md"
@@ -15,10 +15,10 @@ authors = [
 dependencies = []
 
 [project.scripts]
-mediaopertor = "mediaopertor.cli:main"
+mediaoperator = "mediaoperator.cli:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mediaopertor"]
+packages = ["src/mediaoperator"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
