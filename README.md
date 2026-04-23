@@ -50,12 +50,26 @@ CLAUDE_PERMISSION_MODE=acceptEdits ./media-operator.sh
 | `remember` | 同上 | 跨 session 项目知识沉淀 |
 | `agent-browser` | `vercel-labs/agent-browser` | 浏览器自动化（抓社媒榜单、发内容） |
 | `positioning-statement` | `deanpeters/Product-Manager-Skills` (marketplace `pm-skills`) | 内容 / 品牌定位话术 |
+| `hookify` | `anthropics/claude-plugins-official` | 项目级 PreToolUse/PostToolUse 规则引擎 |
+
+### 项目级 hookify 规则
+
+`.agents/claude/hookify.*.local.md` 声明 Bash 工具的拦截规则（`block` action，即命中即拒绝执行）：
+
+| 规则 | 阻止 | 替代 |
+| --- | --- | --- |
+| `python-use-uv` | 裸 `python` / `python3`（除非命令里已有 `uv run` 或 `uvx`） | `uv run python ...` |
+| `pip-use-uv` | `pip` / `pip3` / `python -m pip` | `uv pip ...` 或 `uv add ...` |
+| `node-use-pnpm` | `npm` / `yarn` | `pnpm ...` |
+
+新增规则：直接新建 `.agents/claude/hookify.<name>.local.md`，hookify 无需重启即生效。临时禁用：把对应文件的 frontmatter `enabled: true` 改为 `false`，或在会话内跑 `/hookify:configure`。
 
 ### 首次 clone 后
 
 1. 确保本机装了 `claude` CLI 与 `tmux`：`npm install -g @anthropic-ai/claude-code && brew install tmux`。
 2. `./media-operator.sh`。
 3. 首次启动会提示信任三个 marketplace（`claude-plugins-official` / `agent-browser` / `pm-skills`），选信任。
+   - 项目规则会拦截裸 `python`/`pip`/`npm`/`yarn`，本机需要装 [`uv`](https://github.com/astral-sh/uv) 与 [`pnpm`](https://pnpm.io)。
 4. Claude Code 自动下载并启用上述插件；需要刷新时在会话内跑 `/reload-plugins`。
 5. 个人偏好类插件（LSP、`impeccable`、`frontend-design` 等）请自行装到用户级（`--scope user`），**不要**提交到本仓库。
 6. 如需个人本地覆盖（代理 / API base URL 等），创建 `media-operator.local.sh`（已 gitignore）；MCP 密钥写入 `.mcp.env`（同 gitignore）。

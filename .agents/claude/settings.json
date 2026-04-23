@@ -10,7 +10,8 @@
     "context7@claude-plugins-official": true,
     "remember@claude-plugins-official": true,
     "agent-browser@agent-browser": true,
-    "positioning-statement@pm-skills": true
+    "positioning-statement@pm-skills": true,
+    "hookify@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
