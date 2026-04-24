@@ -1,6 +1,6 @@
 # 任务 01：细化栏目执行样稿与操作手册
 
-> 这是一个**可执行任务清单**，合并条件是 intern 完成（或以合理理由跳过）下面列出的 T1–T8。mentor 为 `@allenwoods`（同时兼任 Player-Coach）。
+> 这是一个**可执行任务清单**，合并条件是 @sweetcoisy 完成（或以合理理由跳过）下面列出的 T1–T8。mentor 为 `@allenwoods`（同时兼任 Player-Coach）。
 >
 > 本任务不改 `docs/notes/2026-04-23-init-plan.md`。所有产出都落在 `docs/notes/columns/` 与 `docs/notes/templates/` 下。
 
@@ -17,7 +17,7 @@
 
 ## 交付目标
 
-合并后 intern 和 mentor 应该**不需要再讨论怎么做栏目**，只需要讨论每一期的具体内容。
+合并后 @sweetcoisy 和 mentor 应该**不需要再讨论怎么做栏目**，只需要讨论每一期的具体内容。
 
 ## 任务清单
 
@@ -79,11 +79,11 @@
 - 建议每 2 个 T 同步一次进度，避免走偏回头成本高
 - 全部 T 完成 → mentor 终审 → 本 PR 切出 Ready for review → 合并
 
-## 讨论点（mentor 与 intern 在评论区拍板）
+## 讨论点（mentor 与 @sweetcoisy 在评论区拍板）
 
 - [ ] **Q1 样稿顺序** T1/T2/T3 哪个先写？推荐 T3（5 signal）先，因为它最轻，用来熟悉工作流
 - [ ] **Q2 原创判断的"底线"** 哪些素材类型下必须有判断句？例如纯新闻播报是否允许？
-- [ ] **Q3 封面工具** 小红书封面用 Figma、Canva、还是 Xiaomi 文档原生？对 intern 的可及性？
+- [ ] **Q3 封面工具** 小红书封面用 Figma、Canva、还是 Xiaomi 文档原生？对 @sweetcoisy 的可及性？
 - [ ] **Q4 抖音配音** 本人出镜 vs AI 口播，第一阶段默认哪种？
 - [ ] **Q5 历史复用** 样稿质量通过后，是否直接在下周作为"第 02 期"发布素材？还是只作为内部样品？
 
