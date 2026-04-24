@@ -2,7 +2,7 @@
 
 > 这是一个**可执行任务清单**，合并条件是 @sweetcoisy 完成 T1–T8。mentor 为 `@allenwoods`（兼 Player-Coach）。
 >
-> 本任务不改 `docs/notes/2026-04-23-init-plan.md`。产出落在 `docs/notes/tools/`。
+> 本任务不改 `docs/notes/2026-04-23-init-plan.md`。产出落在 `docs/notes/tools/`，**全部使用 markdown 格式**（项目规则：交付物必须机器友好，不使用飞书多维表 / Notion 等 SaaS 载体；工具评估时"能否读写 CSV/markdown"是硬指标）。
 
 ## 背景
 
@@ -41,7 +41,7 @@
 - [ ] **T2** 深度调研 `vigorX777/content-collector-skill`
   - 产出：`docs/notes/tools/vendor-content-collector.md`
   - 同 T1 字段
-  - 特别关注：**飞书多维表集成方式**（对比 PR #3 的 T8 字段，如不兼容需在 PR #3 里调字段）
+  - 特别关注：**是否能直接读写 CSV/markdown**（项目规则是机器友好格式；若该工具只输出到飞书/Notion 等 SaaS，记为"集成摩擦"风险，并给出"落地到 PR #3 的 `sources.csv`"的改造方案或替代）
 
 - [ ] **T3** 深度调研 `vigorX777/md2wechat-skill`
   - 产出：`docs/notes/tools/vendor-md2wechat.md`
@@ -60,12 +60,12 @@
 
 - [ ] **T5** 非 vigorX777 替代方案
   - 产出：`docs/notes/tools/alternatives.md`
-  - 4 个能力模块每个给 ≥ 1 个替代方案：
-    - 信息采集：RSSHub / Feedbin / Inoreader / 自建 playwright 脚本
-    - 内容整理：飞书多维表 + 飞书机器人 / Notion API / Airtable
-    - 选题推荐：简单评分表 + Claude 直接聊 / 自建 prompt
-    - 分发与复盘：秀米 + 公众号图文助手 / 讯飞语音 / 自研
-  - 每个替代方案给：成本、学习曲线、和 vigorX777 对应工具的差异
+  - 4 个能力模块每个给 ≥ 1 个替代方案（**全部限定在机器友好格式**，优先本地工具/脚本/开源 CLI，不选 SaaS 表格）：
+    - 信息采集：RSSHub / 自建 playwright 或 httpx 脚本 / feedparser
+    - 内容整理：本地 CSV + pandas / csvkit / mlr / qsv；SQLite 或 duckdb 文件库
+    - 选题推荐：基于 `sources.csv` 的评分排序脚本 + Claude 直接读文件
+    - 分发与复盘：markdown → 公众号 HTML（已有候选 `md2wechat-skill` / `wechat-article-formatter`）；复盘表 CSV + 可视化脚本
+  - 每个替代方案给：成本、学习曲线、和 vigorX777 对应工具的差异、是否原生支持 CSV/markdown I/O
 
 ### 凭据与成本
 
@@ -73,9 +73,9 @@
   - 产出：`docs/notes/tools/credentials.md`
   - 列出启用全链路所需的所有外部账号：
     - 微信公众号开发者（AppID / AppSecret）
-    - 飞书开放平台（app id / app secret / 权限范围）
-    - 各社交平台 API（X / Reddit 等；第一阶段可标注 "Phase 2"）
     - LLM API（OpenAI / Anthropic / 国内厂商）
+    - 各社交平台 API（X / Reddit 等；第一阶段可标注 "Phase 2"）
+    - 其他：若某个候选工具强依赖 SaaS 凭据（例如飞书 / Notion API），单独列为"集成摩擦"，标注是否有 CSV/markdown 的绕过方案
   - 每项：申请门槛、审核周期、年费估算、谁负责申请
 
 ### License 处理
