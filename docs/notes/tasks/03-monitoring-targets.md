@@ -1,18 +1,18 @@
 # 任务 03：补充重点监控对象
 
-> 这是一个**可执行任务清单**，合并条件是 intern 完成 T1–T8。mentor 为 `@allenwoods`（兼 Player-Coach）。
+> 这是一个**可执行任务清单**，合并条件是 @sweetcoisy 完成 T1–T8。mentor 为 `@allenwoods`（兼 Player-Coach）。
 >
-> 本任务不改 `docs/notes/2026-04-23-init-plan.md`。产出落在 `docs/notes/monitoring/`。
+> 本任务不改 `docs/notes/2026-04-23-init-plan.md`。产出落在 `docs/notes/monitoring/`，**全部使用 markdown 或 CSV 格式**（项目规则：交付物必须机器友好，不使用飞书多维表 / Notion 等 SaaS 锁定载体）。
 
 ## 背景
 
 - 参考文档：[`docs/notes/improve_suggestion.md`](../improve_suggestion.md) 第 10–11 章已给出 **17 个英文种子**和一套 5 层分层模型 + 评分规则。
-- **中文种子库完全空白**——这是 intern 在本阶段独立拿下的第一块实操任务。
+- **中文种子库完全空白**——这是 @sweetcoisy 在本阶段独立拿下的第一块实操任务。
 - 主阵地是公众号 + 小红书，所以中文监控库优先级高于英文。
 
 ## 交付目标
 
-合并后，每周一上午 intern 只要打开监控库总表、看一眼本周新增素材，就知道"可以写什么"。mentor 也能一眼判断"我们监控的对象是否贴合 AI-native 组织方向"。
+合并后，每周一上午 @sweetcoisy 只要打开仓库里的监控库 CSV/markdown 文件、看一眼本周新增素材，就知道"可以写什么"。mentor 也能一眼判断"我们监控的对象是否贴合 AI-native 组织方向"。所有数据都在 git 里，可 diff、可脚本读取、可自动化。
 
 ## 任务清单
 
@@ -38,7 +38,7 @@
   - 产出：`docs/notes/monitoring/seeds-cn-l4-competitors.md`
   - 国内 Agent / AI-native 方向竞品
   - 每家填：官网更新日志、创始人/核心成员社媒、典型产品主张 3 条
-  - intern 先提 5 个候选，mentor 评审定终
+  - @sweetcoisy 先提 5 个候选，mentor 评审定终
 
 ### 英文种子验证
 
@@ -55,21 +55,22 @@
   - 从 T1–T4 收集的中文来源里随机抽 5 条 + 从英文来源抽 5 条，每条按 improve_suggestion 11.4 的 4 维度打分（相关性 / 时效性 / 可转内容性 / 原创增量空间）
   - 记录：打分时的主观难点、是否觉得规则合理、建议的规则调整
 
-### 归属映射 & 多维表
+### 归属映射 & 总表
 
 - [ ] **T7** 来源 → 栏目归属映射
   - 产出：`docs/notes/monitoring/source-to-column.md`
   - 每个 A 级来源标注：最适合喂给哪个栏目（周观察 / DRI 拆题 / 5 signal 三选一或多选）
   - 帮助选题会上快速定位素材来源
 
-- [ ] **T8** 飞书多维表建表 + 字段落地
-  - 产出：飞书多维表链接（放进 `docs/notes/monitoring/README.md`）+ 字段 schema 截图
-  - 字段参考：
+- [ ] **T8** 监控库总表（CSV 格式）
+  - 产出：`docs/notes/monitoring/sources.csv`（UTF-8，含表头，LF 换行）
+  - 列定义（严格按顺序，不要随意加列）：
+    ```csv
+    source_id,name,layer,type,channel,url,topic,priority,update_freq,owner,last_reviewed,candidate_topics,selected_this_week,score_relevance,score_timeliness,score_convertible,score_novelty,score_total,notes
     ```
-    来源名称 | 来源类型 | 渠道 | 监控主题 | 优先级 | 更新频率 |
-    负责人 | 最近一次查看时间 | 候选选题 | 是否入选本周选题 | 4 维评分 | 总分
-    ```
-  - 视图至少 3 个：全量看板 / 按优先级 / 按栏目归属
+  - 同时再生成一份 `docs/notes/monitoring/sources.md` —— 把 CSV 的内容渲染成 markdown 表（方便在 GitHub UI 上直接看）
+  - 维护约定：CSV 是权威源，`sources.md` 是衍生视图；后续如果接入自动化，只读/写 CSV
+  - 视图需求通过 git + CSV 工具实现（`csvkit` / `mlr` / `qsv` 等），不要做 3 个"看板"
 
 ## 字段模板（T1–T4 统一使用）
 
@@ -94,7 +95,7 @@
 | 种子库调研 | C | C | R |
 | 竞品清单终审 | A | C | R |
 | 评分规则调整 | A | C | R |
-| 飞书表结构 | C | A | R |
+| 总表 schema | C | A | R |
 
 ## 交付方式
 
@@ -109,12 +110,11 @@
 
 ## 讨论点
 
-- [ ] **Q1 表载体** 飞书多维表 vs Notion vs 其他？公司主用哪个？
-- [ ] **Q2 竞品清单** intern 先提 5 个国内竞品候选，mentor 评审
-- [ ] **Q3 社区层范围** L3 是否把微信社群 / 飞书群也算入，还是只包括公开社区？
-- [ ] **Q4 评分门槛** 16 分门槛对 signal 类素材是否偏严？试跑后由 intern 提建议
-- [ ] **Q5 每日扫描** 上午 + 下午两轮对 intern 是否可承受？或改为"一天 1 轮 + 机器人推送"？
-- [ ] **Q6 增补来源** T5 里发现的增补候选是否进第一版种子库？
+- [ ] **Q1 竞品清单** @sweetcoisy 先提 5 个国内竞品候选，mentor 评审
+- [ ] **Q2 社区层范围** L3 是否把微信社群 / 飞书群也算入，还是只包括公开社区？
+- [ ] **Q3 评分门槛** 16 分门槛对 signal 类素材是否偏严？试跑后由 @sweetcoisy 提建议
+- [ ] **Q4 每日扫描** 上午 + 下午两轮对 @sweetcoisy 是否可承受？或改为"一天 1 轮 + 机器人推送"？
+- [ ] **Q5 增补来源** T5 里发现的增补候选是否进第一版种子库？
 
 ## 本 PR 不做什么
 
