@@ -1,6 +1,6 @@
 # 任务 02：细化目标群体与核心信息
 
-> 这是一个**可执行任务清单**，合并条件是 intern 完成 T1–T8。mentor 为 `@allenwoods`（同时兼任 Player-Coach）。
+> 这是一个**可执行任务清单**，合并条件是 @sweetcoisy 完成 T1–T8。mentor 为 `@allenwoods`（同时兼任 Player-Coach）。
 >
 > 本任务不改 `docs/notes/2026-04-23-init-plan.md`。产出落在 `docs/notes/audience/`、`docs/notes/messaging/`、`docs/notes/glossary.md`、`docs/notes/phase1-kpi.md`。
 
@@ -69,7 +69,7 @@
 
 ## 角色分工（此 PR 内采用）
 
-| 环节 | DRI（@allenwoods） | Player-Coach（@allenwoods） | IC（intern） |
+| 环节 | DRI（@allenwoods） | Player-Coach（@allenwoods） | IC（@sweetcoisy） |
 |---|---|---|---|
 | 任务清单定义 | A | C | I |
 | 画像字段与样本 | C | A | R |
@@ -79,7 +79,7 @@
 
 （R = Responsible 执行；A = Accountable 拍板；C = Consulted；I = Informed）
 
-Player-Coach 暂由 mentor 兼任；Intern 为 IC（IC-运营）。
+Player-Coach 暂由 mentor（@allenwoods）兼任；@sweetcoisy 为 IC（IC-运营）。
 
 ## 交付方式
 
@@ -96,9 +96,9 @@ Player-Coach 暂由 mentor 兼任；Intern 为 IC（IC-运营）。
 
 - [ ] **Q1 画像粒度** 画像样本是用真实熟人（更准但不便分享）还是纯虚构？
 - [ ] **Q2 D 层定位** 行业观察者（记者/分析师/投资人）在第一阶段完全不做，还是保留有机触达空间？
-- [ ] **Q3 术语表选择** 上面 11 个候选术语哪些先入 v0.1？intern 提出 8 个意向，mentor 拍板
-- [ ] **Q4 KPI 分档** "最低 / 目标 / 惊喜" 的数字由 intern 先提，还是 mentor 直接给？
-- [ ] **Q5 内容主张** intern 先起 5 条候选，mentor 评完后合成终稿
+- [ ] **Q3 术语表选择** 上面 11 个候选术语哪些先入 v0.1？@sweetcoisy 提出 8 个意向，mentor 拍板
+- [ ] **Q4 KPI 分档** "最低 / 目标 / 惊喜" 的数字由 @sweetcoisy 先提，还是 mentor 直接给？
+- [ ] **Q5 内容主张** @sweetcoisy 先起 5 条候选，mentor 评完后合成终稿
 
 ## 本 PR 不做什么
 
