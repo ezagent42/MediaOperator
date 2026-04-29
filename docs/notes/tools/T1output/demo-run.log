@@ -1,0 +1,57 @@
+[digest] === AI Daily Digest ===
+[digest] Time range: 24 hours
+[digest] Top N: 10
+[digest] Language: zh
+[digest] Output: ./output/digest-demo.md
+[digest] AI provider: OpenAI-compatible (primary)
+[digest] Fallback: https://api.deepseek.com (model=deepseek-chat)
+
+[digest] Step 1/5: Fetching 92 RSS feeds...
+[digest] Progress: 10/92 feeds processed (10 ok, 0 failed)
+[digest] ✗ utcc.utoronto.ca/~cks: HTTP 403
+[digest] ✗ lcamtuf.substack.com: timeout
+[digest] ✗ dynomight.net: The operation timed out.
+[digest] Progress: 20/92 feeds processed (17 ok, 3 failed)
+[digest] ✗ gilesthomas.com: unknown certificate verification error
+[digest] ✗ garymarcus.substack.com: timeout
+[digest] ✗ rachelbythebay.com: timeout
+[digest] ✗ derekthompson.org: timeout
+[digest] Progress: 30/92 feeds processed (23 ok, 7 failed)
+[digest] ✗ micahflee.com: timeout
+[digest] ✗ buttondown.com/hillelwayne: timeout
+[digest] Progress: 40/92 feeds processed (31 ok, 9 failed)
+[digest] ✗ dwarkesh.com: timeout
+[digest] Progress: 50/92 feeds processed (40 ok, 10 failed)
+[digest] ✗ oldvcr.blogspot.com: timeout
+[digest] Progress: 60/92 feeds processed (49 ok, 11 failed)
+[digest] ✗ gwern.net: timeout
+[digest] Progress: 70/92 feeds processed (58 ok, 12 failed)
+[digest] ✗ blog.pixelmelt.dev: HTTP 530
+[digest] ✗ worksonmymachine.substack.com: timeout
+[digest] Progress: 80/92 feeds processed (66 ok, 14 failed)
+[digest] Progress: 90/92 feeds processed (76 ok, 14 failed)
+[digest] ✗ tedunangst.com: timeout
+[digest] Progress: 92/92 feeds processed (77 ok, 15 failed)
+[digest] Fetched 2308 articles from 77 feeds (15 failed)
+[digest] Step 2/5: Filtering by time range (24 hours)...
+[digest] Found 14 articles within last 24 hours
+[digest] Step 3/5: AI scoring 14 articles...
+[digest] AI scoring: 14 articles in 2 batches
+[digest] Scoring progress: 2/2 batches
+[digest] Top 10 articles selected (score range: 18 - 26)
+[digest] Step 4/5: Generating AI summaries...
+[digest] Generating summaries for 10 articles in 1 batches
+[digest] Summary progress: 1/1 batches
+[digest] Step 5/5: Generating today's highlights...
+
+[digest] ✅ Done!
+[digest] 📁 Report: ./output/digest-demo.md
+[digest] 📊 Stats: 77 sources → 2308 articles → 14 recent → 10 selected
+
+[digest] 🏆 Top 3 Preview:
+  1. OpenAI 预测 ChatGPT Plus 订阅量将从 2025 年的 4400 万暴跌 80% 至 2026 年的 900 万，并用更便宜的订阅来弥补（不知怎么做到的）
+     The Information 报道称，OpenAI 内部预测其 20 美元/月的 ChatGPT Plus 订阅用户数将从 2025 年的 4400 万暴跌至...
+  2. AI 的经济账说不通
+     文章核心探讨了当前 AI 产业（尤其是大模型公司）普遍存在的经济学悖论：高昂的研发与运营成本与不清晰的盈利模式之间的矛盾。作者指出，像 NVIDIA、Anthr...
+  3. Anthropic 神话——我们打开了潘多拉魔盒
+     文章回顾了网络安全界过去十年对“量子末日”的预测：即当一台密码学相关的量子计算机能够运行肖尔算法，破解互联网依赖的公钥加密系统时，将引发一场网络末日。作者认为，...
