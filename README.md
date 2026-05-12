@@ -73,3 +73,26 @@ CLAUDE_PERMISSION_MODE=acceptEdits ./media-operator.sh
 4. Claude Code 自动下载并启用上述插件；需要刷新时在会话内跑 `/reload-plugins`。
 5. 个人偏好类插件（LSP、`impeccable`、`frontend-design` 等）请自行装到用户级（`--scope user`），**不要**提交到本仓库。
 6. 如需个人本地覆盖（代理 / API base URL 等），创建 `media-operator.local.sh`（已 gitignore）；MCP 密钥写入 `.mcp.env`（同 gitignore）。
+
+## Content Site / GitHub Pages
+
+This repository also contains a static Next.js content site for publishing column drafts as GitHub Pages.
+
+Local preview:
+
+```bash
+npm install
+npm run dev
+```
+
+Static build:
+
+```bash
+npm run build
+```
+
+Deployment:
+
+- `.github/workflows/pages.yml` builds the Next.js site and deploys `out/` to GitHub Pages.
+- The project-page URL is expected to be `https://ezagent42.github.io/MediaOperator/`.
+- The current content homepage and `/columns/weekly-signals/ep02/` both render the Weekly Signals EP02 page.
