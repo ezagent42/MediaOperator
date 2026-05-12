@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>这周值得看的 10 个 signal｜第 02 期</title>
+  <style>
+    :root {
+      --ink: #17201b;
+      --muted: #65736b;
+      --paper: #f7f5ef;
+      --card: #fffdfa;
+      --line: #d8d3c7;
+      --green: #126a4a;
+      --blue: #174f73;
+      --red: #94483f;
+      --yellow: #b1791a;
+      --shadow: 0 24px 60px rgba(34, 33, 28, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(23, 32, 27, 0.05) 1px, transparent 1px),
+        linear-gradient(rgba(23, 32, 27, 0.05) 1px, transparent 1px),
+        var(--paper);
+      background-size: 32px 32px;
+      color: var(--ink);
+      font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 20px 64px;
+    }
+
+    .hero {
+      min-height: 520px;
+      margin-bottom: 28px;
+    }
+
+    .hero-main {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #fffaf0;
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 5vw, 58px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(18, 106, 74, 0.18), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(23, 79, 115, 0.16), transparent 26%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 250, 240, 0.72));
+      pointer-events: none;
+    }
+
+    .hero-main > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid rgba(23, 32, 27, 0.24);
+      padding: 7px 11px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    h1 {
+      margin: 26px 0 18px;
+      font-size: clamp(40px, 7vw, 88px);
+      line-height: 1.22;
+      letter-spacing: 0;
+      max-width: 760px;
+    }
+
+    .lead {
+      max-width: 680px;
+      font-size: clamp(17px, 2.1vw, 23px);
+      color: #314038;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 34px;
+    }
+
+    .pill {
+      border: 1px solid rgba(23, 32, 27, 0.22);
+      background: rgba(255, 255, 255, 0.68);
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #314038;
+    }
+
+    .section-title {
+      margin: 42px 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 440px;
+      font-size: 15px;
+    }
+
+    .signals {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .signal-card {
+      min-height: 0;
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: clamp(20px, 3vw, 34px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 14px 36px rgba(34, 33, 28, 0.07);
+      overflow-wrap: anywhere;
+    }
+
+    .signal-card:nth-child(1) { border-top: 7px solid var(--green); }
+    .signal-card:nth-child(2) { border-top: 7px solid var(--blue); }
+    .signal-card:nth-child(3) { border-top: 7px solid var(--yellow); }
+    .signal-card:nth-child(4) { border-top: 7px solid var(--red); }
+    .signal-card:nth-child(5) { border-top: 7px solid #4e5c68; }
+    .signal-card:nth-child(6) { border-top: 7px solid #6f5b8f; }
+    .signal-card:nth-child(7) { border-top: 7px solid #2f7f88; }
+    .signal-card:nth-child(8) { border-top: 7px solid #7d5a2f; }
+    .signal-card:nth-child(9) { border-top: 7px solid #3f6f3a; }
+    .signal-card:nth-child(10) { border-top: 7px solid #8b3f62; }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .num {
+      font-family: Georgia, serif;
+      font-size: 40px;
+      line-height: 1;
+      color: rgba(23, 32, 27, 0.24);
+      font-weight: 700;
+    }
+
+    .card-head img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: white;
+      padding: 6px;
+    }
+
+    .signal-card h3 {
+      margin: 0;
+      font-size: clamp(25px, 3.2vw, 38px);
+      line-height: 1.16;
+    }
+
+    .signal-card p {
+      margin: 0;
+      color: #34453b;
+      font-size: 17px;
+    }
+
+    .takeaway {
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .judgment {
+      border-left: 5px solid var(--green);
+      background: #edf5ed;
+      padding: 14px 16px;
+      margin: 18px 0;
+      color: #183b2c;
+      font-weight: 700;
+    }
+
+    .action {
+      border: 1px solid #cfdbd2;
+      background: #f5fbf5;
+      padding: 14px 16px;
+      margin-top: 16px;
+      color: #234235;
+      font-weight: 700;
+    }
+
+    .closing {
+      margin-top: 32px;
+      border: 1px solid var(--line);
+      background: #203128;
+      color: #fffdfa;
+      padding: clamp(24px, 4vw, 42px);
+    }
+
+    .closing h2 {
+      margin: 0 0 14px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.1;
+    }
+
+    .closing p,
+    .closing li {
+      color: rgba(255, 253, 250, 0.82);
+      font-size: 17px;
+    }
+
+    .sources {
+      margin-top: 28px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .source-link {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .source-link img {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background: white;
+      padding: 5px;
+    }
+
+    .source-link span {
+      color: rgba(255, 253, 250, 0.9);
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        background-size: 24px 24px;
+      }
+
+      .page {
+        padding: 24px 16px 52px;
+      }
+
+      .hero {
+        min-height: auto;
+        margin-bottom: 22px;
+      }
+
+      .hero-main {
+        padding: 30px;
+      }
+
+      h1 {
+        font-size: clamp(38px, 11vw, 64px);
+        line-height: 1.24;
+      }
+
+      .lead {
+        font-size: 18px;
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+        margin-top: 30px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        padding: 10px 10px 40px;
+      }
+
+      .hero {
+        margin-bottom: 18px;
+      }
+
+      .hero-main,
+      .signal-card,
+      .closing {
+        padding: 18px 16px;
+      }
+
+      .eyebrow {
+        padding: 6px 9px;
+        font-size: 12px;
+      }
+
+      h1 {
+        margin: 20px 0 14px;
+        font-size: clamp(32px, 12vw, 44px);
+        line-height: 1.28;
+      }
+
+      .lead {
+        font-size: 16px;
+        line-height: 1.66;
+      }
+
+      .hero-meta {
+        gap: 8px;
+        margin-top: 22px;
+      }
+
+      .pill {
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+
+      .section-title {
+        gap: 10px;
+        margin: 26px 0 14px;
+        padding-bottom: 10px;
+      }
+
+      .section-title h2 {
+        font-size: 29px;
+      }
+
+      .section-title p {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .signals {
+        gap: 14px;
+      }
+
+      .signal-card {
+        gap: 11px;
+        box-shadow: 0 10px 24px rgba(34, 33, 28, 0.08);
+      }
+
+      .signal-card:nth-child(n) {
+        border-top-width: 6px;
+      }
+
+      .num {
+        font-size: 32px;
+      }
+
+      .card-head img {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        padding: 5px;
+      }
+
+      .signal-card h3 {
+        font-size: clamp(22px, 6.4vw, 28px);
+        line-height: 1.2;
+      }
+
+      .signal-card p {
+        font-size: 15.5px;
+        line-height: 1.72;
+      }
+
+      .judgment,
+      .action {
+        padding: 12px 13px;
+        font-size: 15px;
+        line-height: 1.62;
+      }
+
+      .judgment {
+        border-left-width: 4px;
+        margin: 8px 0;
+      }
+
+      .action {
+        margin-top: 8px;
+      }
+
+      .closing {
+        margin-top: 24px;
+      }
+
+      .closing h2 {
+        font-size: 29px;
+      }
+
+      .closing p,
+      .closing li {
+        font-size: 15.5px;
+        line-height: 1.72;
+      }
+
+      .closing ol {
+        padding-left: 22px;
+      }
+
+      .sources {
+        gap: 8px;
+        margin-top: 22px;
+      }
+
+      .source-link {
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .source-link img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .source-link span {
+        font-size: 12.5px;
+        line-height: 1.45;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .page {
+        padding: 8px 8px 36px;
+      }
+
+      .hero-main,
+      .signal-card,
+      .closing {
+        padding: 16px 14px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 11.5vw, 38px);
+        line-height: 1.3;
+      }
+
+      .signal-card h3 {
+        font-size: 21px;
+      }
+
+      .signal-card p,
+      .closing p,
+      .closing li {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div>
+          <span class="eyebrow">Weekly Signals · EP02</span>
+          <h1>Agent 开始进入组织主流程</h1>
+          <p class="lead">这周值得看的变化，不是又多了几个聊天助手，而是 agent 正在变成可配置、可审计、可分工的工作系统。</p>
+        </div>
+        <div class="hero-meta">
+          <span class="pill">10 个 signal</span>
+          <span class="pill">AI-native 组织</span>
+          <span class="pill">Agent workflows</span>
+          <span class="pill">2026-05</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-title" aria-labelledby="signals-title">
+      <h2 id="signals-title">10 个 Signal</h2>
+      <p>共同趋势：Agent 正在从个人效率工具变成组织可编排的工作单元。</p>
+    </section>
+
+    <section class="signals" aria-label="ten signal cards">
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">01</span>
+          <img src="https://www.google.com/s2/favicons?domain=anthropic.com&sz=128" alt="Anthropic logo">
+        </div>
+        <h3>Anthropic 推出 10 个金融 agent 模板</h3>
+        <p>Anthropic 发布了 10 个面向金融服务的 agent 模板，覆盖 pitchbook、会议准备、市场研究、财报审阅、模型构建、估值复核、总账对账、月结、报表审计、KYC 审查等场景。</p>
+        <div class="judgment">我们的判断：垂直行业 agent 会先从高价值、强流程、强审计的岗位切入。</div>
+        <p>这件事值得看，不只是因为金融行业愿意付费，而是因为它把 agent 做成了岗位工作流模板。每个模板都不是一个聊天入口，而是由 skills、connectors、subagents 组合而成，能接入数据、分配子任务，并把结果交给人复核。</p>
+        <p>这个变化会把企业 AI 的讨论从“哪个模型更强”拉回到“哪类岗位可以被流程化”。金融场景天然有清晰输入、固定产出、明确责任和审计要求，所以它会比泛办公场景更早形成可复制模板。</p>
+        <p>对 AI-native 组织来说，这个方向很清楚：未来沉淀的不是一堆 prompt，而是一套套可以复用的岗位工作流。真正有价值的资产，是谁来判断、哪些数据能接入、哪一步交给 agent、哪一步必须人工签字。</p>
+        <div class="action">执行建议：把团队内部重复任务拆成“任务目标 + 输入数据 + 执行步骤 + 审核点”四层，再判断哪些可以先做成 agent 模板。不要先追求全自动，先追求可复用、可复核、可交接。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">02</span>
+          <img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=128" alt="Microsoft logo">
+        </div>
+        <h3>Microsoft 把人机协作分成 4 种模式</h3>
+        <p>Microsoft 在官方博客中，把人机协作分成 Author、Editor、Director、Orchestrator 四种模式：从人自己做、AI 辅助，到人设定目标、多 agent 并行执行。</p>
+        <div class="judgment">我们的判断：组织真正要升级的不是工具栈，而是工作分配方式。</div>
+        <p>很多团队现在还停留在 Author 或 Editor 模式：人做主要工作，AI 做辅助或初稿。但当任务进入 Director 和 Orchestrator 模式，管理问题就变了。团队需要定义任务边界、验收标准、异常升级机制，以及人什么时候介入。</p>
+        <p>这也是 AI-native 组织和普通 AI 使用者的分水岭。普通团队会问“员工有没有用 AI”，更成熟的团队会问“这件事应该由人主导、AI 辅助，还是由人设目标、agent 执行”。</p>
+        <p>对内容生产尤其明显。日更 signal 可以先让 agent 做收集和初筛；周观察需要人判断主线；平台改写可以半自动；最终发布和选题方向仍然需要人工负责。不同任务不能混在一个 prompt 里解决。</p>
+        <div class="action">执行建议：下次复盘 AI 使用情况时，不只问“用了什么工具”，要按四种协作模式给团队任务分类，并为每类任务写清输入、输出、验收人和失败处理方式。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">03</span>
+          <img src="https://www.google.com/s2/favicons?domain=openai.com&sz=128" alt="OpenAI logo">
+        </div>
+        <h3>OpenAI 把 workspace agent 纳入管理后台</h3>
+        <p>OpenAI 在 ChatGPT Business release notes 中更新了全局 admin console：新增 Analytics 和 Agents 区域。管理员可以查看 workspace agents、连接应用、memory files、schedules、运行次数和 analytics。</p>
+        <div class="judgment">我们的判断：agent 一旦进入组织，就必须被当成可管理对象，而不是普通功能入口。</div>
+        <p>这说明企业 agent 的基础设施正在从创建 agent 进入管理 agent。当一个组织里有多个 agent 连接不同应用、文件、日程和数据源，真正的风险不是某个 agent 写错一句话，而是没人知道有哪些 agent 在运行、连接了什么、做过哪些动作。</p>
+        <p>过去 prompt 可以散落在个人文档里，但 agent 不行。agent 会定时运行、调用工具、读取文件、写入结果，如果没有 inventory，组织就无法判断它是否还有效、是否越权、是否被重复建设。</p>
+        <p>这对我们设计内容 agent 也有直接启发：每个 agent 都要有 owner、用途、输入源、输出位置、运行频率、审核方式和版本记录。否则后面数据回流时，根本不知道是哪一个环节影响了结果。</p>
+        <div class="action">执行建议：即使在早期，也要给每个 agent 建一张登记表：owner、用途、连接数据、运行频率、权限范围、最后复核时间。先用简单表格也可以，但不能没有。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">04</span>
+          <img src="https://www.google.com/s2/favicons?domain=ibm.com&sz=128" alt="IBM logo">
+        </div>
+        <h3>IBM 强调新的 AI operating model</h3>
+        <p>IBM 在 Think 2026 发布中强调，企业 AI 的下一阶段需要 agent orchestration、实时数据、自动化、混合云和治理共同组成新的 operating model。</p>
+        <div class="judgment">我们的判断：AI 项目会从单点试验进入运行系统阶段。</div>
+        <p>过去很多企业 AI 项目失败，不一定是模型能力不够，而是缺少支撑它运行的系统：数据不能实时连接，流程不能闭环，权限和审计没有跟上，agent 之间也无法协同。</p>
+        <p>“operating model”这个词很重要。它说明 AI 不再只是一个工具采购问题，而是组织如何重新安排数据、流程、岗位、治理和责任的问题。没有 operating model，agent 很容易变成一堆看起来很聪明、但无法稳定交付的 demo。</p>
+        <p>对内容系统来说同理。日更、周更、分发、数据回流不能是几段孤立 prompt，而应该是一套运行系统：每天收集什么、谁来评分、哪类内容进入哪个栏目、什么数据触发模板迭代，都要有规则。</p>
+        <div class="action">执行建议：做 AI 方案时，至少同时画出四张图：agent 分工图、数据流图、人工审核图、异常处理图。只画“生成链路”不够，因为真正出问题的往往是权限、交接和例外处理。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">05</span>
+          <img src="https://www.google.com/s2/favicons?domain=coder.com&sz=128" alt="Coder logo">
+        </div>
+        <h3>Coder Agents 把开发 agent 放进自托管基础设施</h3>
+        <p>Coder 发布 Coder Agents beta，主打在自托管基础设施上运行 AI 开发 workflow，并提供模型、prompt、MCP、skills 和隔离 workspace 的集中控制。</p>
+        <div class="judgment">我们的判断：开发者 agent 会从个人生产力工具，变成平台团队要管理的基础设施。</div>
+        <p>如果每个开发者都用不同 agent、不同模型、不同 prompt、不同权限，团队很快会遇到碎片化问题：难审计、难复现、难治理，也难把好的 workflow 沉淀成组织资产。</p>
+        <p>Coder 的信号在于：agent 不只是 IDE 里的插件，而可能成为平台工程的一部分。企业会希望控制 agent 在哪里运行、能访问哪些 repo、能调用哪些工具、执行过程如何隔离，以及失败后怎么追踪。</p>
+        <p>这对内容团队也成立。内容 agent 不能只跑在个人聊天窗口里，否则模板、数据源、评分标准和历史版本都沉淀不下来。真正可复制的内容生产系统，必须把执行环境和工作流资产化。</p>
+        <div class="action">执行建议：开发团队要尽早区分两件事：模型可以多样，但执行环境、权限边界、日志和工作流模板应该统一。内容团队也应采用同样原则。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">06</span>
+          <img src="https://www.google.com/s2/favicons?domain=servicenow.com&sz=128" alt="ServiceNow logo">
+        </div>
+        <h3>ServiceNow 把企业动作层开放给任意 agent</h3>
+        <p>ServiceNow 在 Knowledge 2026 发布 Action Fabric，让 Claude、Copilot 或企业自建 agent 通过 MCP Server 调用 ServiceNow 的流程、审批、目录和业务规则，并进入 AI Control Tower 的治理链路。</p>
+        <div class="judgment">我们的判断：企业 agent 的关键战场不是“能不能读数据”，而是“能不能安全执行动作”。</div>
+        <p>很多 agent 现在只停在查询和建议层，因为一旦进入执行层，就会碰到权限、审批、日志、身份和异常处理。ServiceNow 的信号在于，它把 agent 接进企业已有的 system of action，让 agent 的动作被流程规则、角色权限和审计轨迹包住。</p>
+        <p>这会改变 agent 的价值判断。一个只能回答问题的 agent 是知识入口；一个能在正确权限下触发流程的 agent，才开始接近组织劳动力。前者提升个人效率，后者改变流程结构。</p>
+        <p>但动作层也最容易出风险。如果没有审批节点和回滚机制，agent 越能执行，组织风险越高。所以 AI-native 组织需要把“可执行动作”拆成不同等级，而不是简单地问 agent 能不能自动化。</p>
+        <div class="action">执行建议：整理团队现有高频动作入口，把每个动作标注为“只读 / 可建议 / 可执行 / 必须审批”，再决定哪些动作可以交给 agent。先做低风险动作，再逐步开放高影响动作。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">07</span>
+          <img src="https://www.google.com/s2/favicons?domain=openai.com&sz=128" alt="OpenAI logo">
+        </div>
+        <h3>OpenAI 让 Enterprise EKM 工作区支持 workspace agents</h3>
+        <p>OpenAI 在 ChatGPT Enterprise &amp; Edu release notes 中更新：符合条件的 Enterprise Key Management 工作区现在可以使用 workspace agents，支持模板创建、连接工具、添加 skills/files/MCP servers、定时运行、Slack 使用、版本历史和 analytics。</p>
+        <div class="judgment">我们的判断：当 agent 进入企业，安全控制会从附加项变成上线前提。</div>
+        <p>EKM 工作区支持 workspace agents 的意义，不只是功能扩展，而是说明企业客户希望 agent 在更严格的数据控制、密钥管理和管理员开关下运行。未来 agent 能不能落地，往往不取决于 demo 有多惊艳，而取决于它能否进入企业已有的安全和合规边界。</p>
+        <p>这也提醒我们，agent 的“能力设计”和“安全设计”不能分开做。只要 agent 会连接工具、读取文件、定时运行或进入 Slack，它就已经不再是一次性内容生成，而是组织系统中的长期执行单元。</p>
+        <p>对于内容生产系统，后续如果接入真实数据、账号、发布平台和反馈指标，也要先区分哪些数据可以自动读取，哪些数据只能摘要化进入模型，哪些动作必须人工确认。</p>
+        <div class="action">执行建议：为内部 agent 设定上线门槛：是否需要密钥管理、是否连接外部应用、是否能定时运行、是否保留版本历史和执行记录。没有达到门槛的 agent，只允许做草稿和建议。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">08</span>
+          <img src="https://www.google.com/s2/favicons?domain=okta.com&sz=128" alt="Okta logo">
+        </div>
+        <h3>Okta 把 AI agent 当成独立身份来管理</h3>
+        <p>Okta 发布 secure agentic enterprise blueprint，并宣布 Okta for AI Agents 于 2026 年 4 月 30 日 GA，核心问题是：组织里有哪些 agent、它们能连接什么、它们能做什么。</p>
+        <div class="judgment">我们的判断：agent 治理的第一步不是评估模型，而是给 agent 一个可追踪身份。</div>
+        <p>人类员工有账号、角色、权限、入职和离职流程，但 agent 往往没有。问题在于，agent 可以代表人访问系统、调用工具、触发流程，如果没有独立身份，组织就很难判断责任归属、权限边界和异常来源。</p>
+        <p>当 agent 数量变多，身份问题会变得非常实际：某个结果是谁生成的、基于哪个权限拿到的数据、代表哪个业务 owner 执行、什么时候应该停用。没有身份，就没有治理。</p>
+        <p>这会推动 agent inventory 从“内容登记表”升级为“身份与权限管理对象”。对我们自己的内容 agent，也应避免出现“一个万能 agent 做所有事”的设计，而是按角色拆成采集、评分、写作、改写、发布、复盘。</p>
+        <div class="action">执行建议：给每个 agent 建立身份字段：agent owner、业务角色、授权范围、可访问系统、可执行动作、停用条件。角色越清楚，后续越容易做评分和责任追踪。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">09</span>
+          <img src="https://www.google.com/s2/favicons?domain=cloud.google.com&sz=128" alt="Google Cloud logo">
+        </div>
+        <h3>Google 把 agent 开发拆成构建、扩展和治理三层</h3>
+        <p>Google Cloud 的 Gemini Enterprise Agent Platform 将自身定位为面向企业 agent 的统一平台，强调 build、scale、govern 和 optimize，并支持用 Agent Development Kit（ADK）构建生产级 agent。</p>
+        <div class="judgment">我们的判断：agent 开发正在从 prompt 工程，变成完整的软件工程生命周期。</div>
+        <p>这条 signal 对内容团队同样重要。只要 agent 要稳定参与工作流，就必须经过开发、部署、监控、评估、权限和版本管理。也就是说，未来内容生产 agent 也不能只是一段 prompt，而应该有输入规范、运行环境、输出验收、评分反馈和版本迭代。</p>
+        <p>“build / scale / govern”可以直接变成内容 agent 的设计框架。Build 是把栏目模板、受众画像、评分标准写清楚；Scale 是让多个栏目和多个平台能批量运行；Govern 是让来源、判断、人工审核和数据反馈能被追踪。</p>
+        <p>如果没有这三层，内容 agent 很容易停留在“偶尔生成一篇还不错的稿子”。但我们要做的是每周稳定分发，所以更重要的是可重复、可比较、可迭代。</p>
+        <div class="action">执行建议：把自己的内容 agent 也按 Build / Scale / Govern 拆：先写清模板和技能，再定义批量运行方式，最后补评分、日志和人工审核。每个环节都要能留下版本记录。</div>
+      </article>
+
+      <article class="signal-card">
+        <div class="card-head">
+          <span class="num">10</span>
+          <img src="https://www.google.com/s2/favicons?domain=github.com&sz=128" alt="GitHub logo">
+        </div>
+        <h3>GitHub Copilot coding agent 进入 PR 工作流</h3>
+        <p>GitHub 文档显示，Copilot coding agent 可以从 issue、Pull Request、VS Code 和 GitHub 页面被分配任务，在后台修改代码并创建 PR，同时受分支、权限、Actions、审查和安全扫描等机制约束。</p>
+        <div class="judgment">我们的判断：代码 agent 的主入口会从编辑器移动到团队协作流。</div>
+        <p>这件事的关键不是 agent 会写代码，而是它被放进了软件团队已经熟悉的 issue、branch、commit、PR review 和 CI/CD 流程里。agent 不再只是个人旁边的助手，而是一个可以被分配任务、提交变更、接受 review 的协作者。</p>
+        <p>这给内容生产一个很好的参照：不要把内容 agent 想成“直接发一篇文章”的黑盒，而要把它放进一个类似 PR 的流程。选题是 issue，母稿是 branch，改写是 commit，审核是 review，发布后数据是 merge 后的反馈。</p>
+        <p>只有这样，后续才能知道一篇内容为什么表现好：是信号选得好，标题改写有效，平台模板匹配，还是发布时机影响。没有版本链路，数据反馈就只能停留在结果层。</p>
+        <div class="action">执行建议：把内容生产也设计成 PR-like 流程：每次生成都留下版本、修改原因、审核意见、发布结果和数据反馈。先让流程可追踪，再谈自动优化。</div>
+      </article>
+    </section>
+
+    <section class="closing">
+      <h2>本周我们在看什么</h2>
+      <p>本周的 10 个 signal 都指向同一个方向：agent 正在进入组织主流程。它们共同说明，agent 的下一步不是更像聊天助手，而是更像组织里的可调度工作单元。</p>
+      <ol>
+        <li>行业 agent 模板如何从 demo 变成可复用工作流。</li>
+        <li>企业如何管理越来越多的 workspace agents。</li>
+        <li>开发者 agent 如何从个人插件变成团队基础设施。</li>
+        <li>企业如何给 agent 建立身份、权限、动作和数据反馈闭环。</li>
+      </ol>
+
+      <div class="sources">
+        <a class="source-link" href="https://www.anthropic.com/news/finance-agents" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=anthropic.com&sz=128" alt="Anthropic logo">
+          <span>Anthropic｜10 个金融服务 agent 模板</span>
+        </a>
+        <a class="source-link" href="https://blogs.microsoft.com/blog/2026/05/05/how-frontier-firms-are-rebuilding-the-operating-model-for-the-age-of-ai/" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=128" alt="Microsoft logo">
+          <span>Microsoft｜Frontier Firms 与四种人机协作模式</span>
+        </a>
+        <a class="source-link" href="https://help.openai.com/en/articles/11391654-chatgpt-team-release-notes" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=openai.com&sz=128" alt="OpenAI logo">
+          <span>OpenAI｜ChatGPT Business 管理后台 Agents 区域</span>
+        </a>
+        <a class="source-link" href="https://newsroom.ibm.com/2026-05-05-think-2026-ibm-delivers-the-blueprint-for-the-ai-operating-model-as-the-ai-divide-widens" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=ibm.com&sz=128" alt="IBM logo">
+          <span>IBM｜AI operating model 与 multi-agent orchestration</span>
+        </a>
+        <a class="source-link" href="https://coder.com/blog/introducing-coder-agents" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=coder.com&sz=128" alt="Coder logo">
+          <span>Coder｜Coder Agents beta</span>
+        </a>
+        <a class="source-link" href="https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-opens-its-full-system-of-action-to-every-AI-Agent-in-the-enterprise/default.aspx" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=servicenow.com&sz=128" alt="ServiceNow logo">
+          <span>ServiceNow｜Action Fabric 与 MCP Server</span>
+        </a>
+        <a class="source-link" href="https://help.openai.com/en/articles/10128477-chatgpt-enterprise-edu-release-notes" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=openai.com&sz=128" alt="OpenAI logo">
+          <span>OpenAI｜Enterprise EKM 工作区支持 workspace agents</span>
+        </a>
+        <a class="source-link" href="https://www.okta.com/newsroom/press-releases/showcase-2026/" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=okta.com&sz=128" alt="Okta logo">
+          <span>Okta｜Secure agentic enterprise blueprint</span>
+        </a>
+        <a class="source-link" href="https://cloud.google.com/products/agent-builder" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=cloud.google.com&sz=128" alt="Google Cloud logo">
+          <span>Google Cloud｜Gemini Enterprise Agent Platform</span>
+        </a>
+        <a class="source-link" href="https://docs.github.com/en/copilot/concepts/coding-agent/about-copilot-coding-agent" target="_blank" rel="noreferrer">
+          <img src="https://www.google.com/s2/favicons?domain=github.com&sz=128" alt="GitHub logo">
+          <span>GitHub｜Copilot coding agent 文档</span>
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -15,3 +15,8 @@ media-operator.local.sh
 
 # MCP server secrets (API keys, tokens)
 .mcp.env
+
+# Next.js / GitHub Pages site
+.next/
+out/
+node_modules/
