@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenAI 推理模型端点迁移实战（llm 0.32a2）</title>
+  <style>
+    :root {
+      --ink: #17201b;
+      --muted: #65736b;
+      --paper: #f7f5ef;
+      --card: #fffdfa;
+      --line: #d8d3c7;
+      --green: #126a4a;
+      --blue: #174f73;
+      --red: #94483f;
+      --yellow: #b1791a;
+      --shadow: 0 24px 60px rgba(34, 33, 28, 0.12);
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; min-width: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(23, 32, 27, 0.05) 1px, transparent 1px),
+        linear-gradient(rgba(23, 32, 27, 0.05) 1px, transparent 1px),
+        var(--paper);
+      background-size: 32px 32px;
+      color: var(--ink);
+      font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.72;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .page { max-width: var(--max); margin: 0 auto; padding: 36px 20px 64px; }
+    .hero {
+      min-height: 440px;
+      margin-bottom: 28px;
+    }
+    .hero-main {
+      border: 1px solid var(--line);
+      background: #fffaf0;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 5vw, 58px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(18, 106, 74, 0.18), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(23, 79, 115, 0.16), transparent 26%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 250, 240, 0.72));
+      pointer-events: none;
+    }
+    .hero-main > * { position: relative; z-index: 1; }
+    h1 {
+      margin: 26px 0 18px;
+      font-size: clamp(40px, 7vw, 88px);
+      line-height: 1.22;
+      letter-spacing: 0;
+      max-width: 760px;
+    }
+    .sub {
+      margin: 0;
+      max-width: 680px;
+      font-size: clamp(17px, 2.1vw, 23px);
+      color: #314038;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 34px;
+    }
+    .pill {
+      border: 1px solid rgba(23, 32, 27, 0.22);
+      background: rgba(255, 255, 255, 0.68);
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #314038;
+    }
+    .section-title {
+      margin: 42px 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+    }
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1;
+    }
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 440px;
+      font-size: 15px;
+    }
+    .article {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .signal-card {
+      min-height: 0;
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: clamp(20px, 3vw, 34px);
+      box-shadow: 0 14px 36px rgba(34, 33, 28, 0.07);
+      overflow-wrap: anywhere;
+    }
+    .signal-card-1 { border-top: 7px solid var(--green); }
+    .signal-card-2 { border-top: 7px solid var(--blue); }
+    .signal-card-3 { border-top: 7px solid var(--yellow); }
+    .signal-card-4 { border-top: 7px solid var(--red); }
+    .signal-card-5 { border-top: 7px solid #4e5c68; }
+    .article h2 {
+      margin: 0 0 14px;
+      font-size: clamp(25px, 3.2vw, 38px);
+      line-height: 1.16;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .article h3 {
+      margin: 0 0 10px;
+      font-size: clamp(20px, 2.8vw, 30px);
+      line-height: 1.22;
+      color: #24493d;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .lead-block {
+      margin: 0 0 10px;
+    }
+    .sub-section {
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+    .article p, .article li {
+      color: #34453b;
+      margin: 0 0 10px;
+      font-size: 17px;
+      line-height: 1.74;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .article ul, .article ol { margin: 0 0 12px 24px; padding: 0; }
+    .article a {
+      color: #1c5f87;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+      word-break: break-all;
+    }
+    .article strong { color: #1f2a24; }
+    .article code {
+      background: #f4f0e5;
+      border: 1px solid #ded6c7;
+      border-radius: 6px;
+      padding: 1px 6px;
+      font: 0.92em ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      overflow-wrap: anywhere;
+      word-break: break-all;
+    }
+    .article pre {
+      margin: 10px 0 12px;
+      padding: 12px;
+      background: #f4f0e5;
+      border: 1px solid #ded6c7;
+      overflow: auto;
+      border-radius: 8px;
+    }
+    .article pre code { background: transparent; border: 0; padding: 0; }
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 10px 0 14px;
+    }
+    .article table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .article th, .article td {
+      border: 1px solid #ded6c7;
+      padding: 9px 8px;
+      vertical-align: top;
+      text-align: left;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .article th { background: #f2ede1; color: #213228; }
+    body.variant-digest2 .hero-main::before {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(23, 79, 115, 0.2), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(23, 79, 115, 0.16), transparent 26%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(242, 248, 252, 0.82));
+    }
+    body.variant-digest2 .signal-card:nth-child(odd) {
+      background: linear-gradient(180deg, #f8fcff 0%, #fffdfa 38%);
+    }
+    body.variant-digest1 .signal-card:nth-child(odd) {
+      background: linear-gradient(180deg, #f8fdf9 0%, #fffdfa 38%);
+    }
+    @media (max-width: 860px) {
+      body { background-size: 24px 24px; }
+      .page { padding: 24px 16px 52px; }
+      .hero { min-height: auto; margin-bottom: 22px; }
+      .hero-main { padding: 30px; }
+      h1 { font-size: clamp(38px, 11vw, 64px); line-height: 1.24; }
+      .sub { font-size: 18px; }
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+        margin-top: 30px;
+      }
+    }
+    @media (max-width: 560px) {
+      .page { padding: 10px 10px 40px; }
+      .hero { margin-bottom: 18px; }
+      .hero-main, .signal-card { padding: 18px 16px; }
+      h1 { margin: 20px 0 14px; font-size: clamp(32px, 12vw, 44px); line-height: 1.28; }
+      .sub { font-size: 16px; line-height: 1.66; }
+      .hero-meta { gap: 8px; margin-top: 22px; }
+      .pill { padding: 7px 10px; font-size: 12px; }
+      .section-title {
+        gap: 10px;
+        margin: 26px 0 14px;
+        padding-bottom: 10px;
+      }
+      .section-title h2 { font-size: 29px; }
+      .section-title p { font-size: 14px; line-height: 1.6; }
+      .article { gap: 14px; }
+      .signal-card { gap: 11px; box-shadow: 0 10px 24px rgba(34, 33, 28, 0.08); }
+      .signal-card:nth-child(n) { border-top-width: 6px; }
+      .article h2 { font-size: clamp(22px, 6.4vw, 28px); line-height: 1.2; }
+      .article h3 { font-size: clamp(18px, 5.8vw, 24px); line-height: 1.24; }
+      .article p, .article li {
+        font-size: 15.5px;
+        line-height: 1.72;
+      }
+      .sub-section {
+        padding-top: 10px;
+        margin-top: 10px;
+      }
+      .article ul, .article ol { margin-left: 22px; }
+    }
+    @media (max-width: 390px) {
+      .page { padding: 8px 8px 36px; }
+      .hero-main, .signal-card { padding: 16px 14px; }
+      h1 { font-size: clamp(30px, 11.5vw, 38px); line-height: 1.3; }
+      .article p, .article li { font-size: 15px; }
+    }
+  </style>
+</head>
+<body class="variant-digest2">
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div>
+          <h1>OpenAI 推理模型端点迁移实战（llm 0.32a2）</h1>
+          <p class="sub">给开发者的迁移 runbook：定位调用点、适配新端点、自动化验证与灰度回滚。</p>
+        </div>
+        <div class="hero-meta">
+          <span class="pill">Hacker DRI 拆解 · EP01</span>
+          <span class="pill">2026-05-15</span>
+        </div>
+      </div>
+    </section>
+    <section class="content-wrap">
+      <article class="article">
+        <article class="signal-card signal-card-1">
+<h2 id="问题原貌">问题原貌</h2>
+<p><strong>真实场景</strong>：你在用 OpenAI 的推理模型（如 o1、o3-mini）编写或维护一个工具 / 服务。2026 年 5 月 12 日，<code>llm</code> 工具发布 alpha 版本 0.32a2，其中最重要的变更是：<strong>所有具备推理能力的 OpenAI 模型现已迁移到 <code>/v1/responses</code> 端点，原有的 <code>/v1/chat/completions</code> 对该类模型将不再生效</strong>。这是一个 breaking change。</p>
+<p><strong>约束</strong>：</p>
+<ul>
+<li>这是 alpha 版本，接口细节可能在稳定版中微调；</li>
+<li>迁移仅影响推理模型，非推理模型（如 gpt-4o-mini）可能仍走旧端点；</li>
+<li>你需要区分“自动化迁移”和“人工验证逻辑”；</li>
+<li>如果你的代码直接写死了旧端点或使用了旧 SDK 的参数格式，会直接报错。</li>
+</ul>
+<p><strong>为什么值得拆</strong>：端点迁移会影响请求构造、响应解析、错误处理、成本控制等多个环节。若不及时迁移，推理模型调用会全部失败；若盲目迁移，又可能引入新的兼容性问题。通过 DRI 拆解，可以快速、可靠地完成迁移并留下可复用的检查资产。</p>
+</article>
+<article class="signal-card signal-card-2">
+<h2 id="一个-dri-会怎么定义目标">一个 DRI 会怎么定义目标</h2>
+<p><strong>目标</strong>：将当前所有使用 OpenAI 推理模型（o1, o1-mini, o3-mini, o3 等）的代码路径，统一迁移到 <code>/v1/responses</code> 端点，并确保迁移后功能正确、性能不降、成本可算。</p>
+<p><strong>非目标</strong>：</p>
+<ul>
+<li>不处理非推理模型的端点迁移（保持原样）；</li>
+<li>不涉及模型版本升级（如从 o1 换到 o3）；</li>
+<li>不调整 Prompt 或输出格式，仅改动 API 调用层。</li>
+</ul>
+<p><strong>验收标准</strong>：</p>
+<ol>
+<li>所有推理模型调用均使用 <code>/v1/responses</code> 端点，且 HTTP 状态码 200 返回；</li>
+<li>响应体中关键字段（如 <code>choices</code> / <code>message</code> / <code>content</code> 等）能与原有下游代码兼容（或已适配）；</li>
+<li>单元测试 / 集成测试通过率 100%；</li>
+<li>生产环境灰度验证 30 分钟无错误日志上升。</li>
+</ol>
+</article>
+<article class="signal-card signal-card-3">
+<h2 id="拆解步骤">拆解步骤</h2>
+<section class="sub-section">
+<h3 id="step-1-识别当前所有推理模型调用点">Step 1：识别当前所有推理模型调用点</h3>
+<ul>
+<li><strong>目标</strong>：找出代码库中所有使用 OpenAI 推理模型的请求构造逻辑。</li>
+<li><strong>动作</strong>：</li>
+</ul>
+<ol>
+<li>全局搜索 <code>openai.ChatCompletion.create</code>、<code>client.chat.completions.create</code> 或自定义 HTTP 请求中 <code>/v1/chat/completions</code> 的字符串。</li>
+<li>筛选出 <code>model</code> 参数为推理模型列表（<code>o1</code>、<code>o1-mini</code>、<code>o3-mini</code>、<code>o3</code> 等）的调用点并记录文件路径、行号、上下文。</li>
+<li>用 grep 或 IDE 的 find in files 配合正则：<code>model:? "o[13]</code>。</li>
+</ol>
+<ul>
+<li><strong>输出</strong>：<strong>调用点清单</strong>（文件路径 + 行号 + 当前使用的端点 + model 参数值）。</li>
+<li><strong>人工判断点</strong>：确认清单是否遗漏了动态 model 字符串（如从环境变量读取或拼接的模型名）。需要人工 review 所有非字面量 model 的位置，必要时添加日志 trace。</li>
+</ul>
+</section>
+<section class="sub-section">
+<h3 id="step-2-改造请求构造逻辑-切换端点并适配响应差异">Step 2：改造请求构造逻辑，切换端点并适配响应差异</h3>
+<ul>
+<li><strong>目标</strong>：将 <strong>推理模型</strong> 的请求从 <code>/v1/chat/completions</code> 切换为 <code>/v1/responses</code>，同时适配新旧端点的响应结构差异。</li>
+<li><strong>动作</strong>：</li>
+</ul>
+<ol>
+<li>根据 <a href="https://platform.openai.com/docs/api-reference/responses" target="_blank" rel="noreferrer">OpenAI Responses API 文档</a> 了解新端点的请求体格式（例如 <code>input</code> 替代 <code>messages</code>，<code>model</code> 字段仍存在，<code>tools</code> 可能需调整等）。</li>
+<li>编写一个适配函数 <code>call_reasoning_model(params)</code>，内部判断模型类型后自动选择端点，并转换请求参数。</li>
+<li>修改 Step 1 中识别的每个调用点，替换为对新适配函数的调用，同时保持原有业务逻辑不变（如 temperature、max_tokens 等参数映射）。</li>
+</ol>
+<ul>
+<li><strong>输出</strong>：</li>
+<li>适配函数代码（Python 示例）：</li>
+</ul>
+<pre><code class="lang-python">    def call_reasoning_model(client, model, messages, **kwargs):
+        if model.startswith("o"):  # 推理模型
+            endpoint = "/v1/responses"
+            payload = {
+                "model": model,
+                "input": messages,  # 注意新端点要求 "input" 而不是 "messages"
+                **kwargs
+            }
+        else:
+            endpoint = "/v1/chat/completions"
+            payload = {
+                "model": model,
+                "messages": messages,
+                **kwargs
+            }
+        response = client.post(endpoint, json=payload)
+        return response.json()</code></pre>
+<ul>
+<li>每个调用点的代码 diff（可合并提交）。</li>
+<li><strong>人工判断点</strong>：</li>
+<li>检查 <code>input</code> 字段的格式是否兼容原 <code>messages</code> 结构（例如 system message 是否需要转为 <code>developer</code> role？）；</li>
+<li>确认新响应中的 <code>output</code> 字段如何映射回原来的 <code>choices[0].message.content</code>；</li>
+<li>对于流式调用（stream=True），额外确认新端点的 SSE 格式是否一致。</li>
+</ul>
+</section>
+<section class="sub-section">
+<h3 id="step-3-编写自动化验证脚本并灰度上线">Step 3：编写自动化验证脚本并灰度上线</h3>
+<ul>
+<li><strong>目标</strong>：确保迁移后所有推理模型调用返回正确结果，且性能无明显退化。</li>
+<li><strong>动作</strong>：</li>
+</ul>
+<ol>
+<li>编写一个集成测试用例集合，覆盖所有使用的推理模型（至少 o1 和 o3-mini），每个模型发送 2~3 个典型 Prompt，断言返回内容非空且格式正确（如 JSON 可解析）。</li>
+<li>在测试环境中运行新旧两套逻辑（通过 feature flag 控制），对比输出一致性（允许 LLM 输出天然差异，但检查是否有异常 HTTP 错误、超时、空响应）。</li>
+<li>将适配函数部署到灰度实例（例如 5% 流量），观察 30 分钟内无 4xx/5xx 异常，且响应延迟不超过旧端点的 1.2 倍。</li>
+</ol>
+<ul>
+<li><strong>输出</strong>：</li>
+<li>集成测试脚本（Python，依赖 pytest + openai 客户端）；</li>
+<li>灰度部署后的错误日志与性能数据报表。</li>
+<li><strong>人工判断点</strong>：</li>
+<li>检查灰度期间是否有因为 <code>input</code> 结构问题导致的 400 Bad Request；</li>
+<li>观察回滚策略：如果错误率 &gt; 1% 或延迟超过阈值，立即回滚并人工分析根因。</li>
+</ul>
+</section>
+</article>
+<article class="signal-card signal-card-4">
+<h2 id="每步留下什么可复用资产">每步留下什么可复用资产</h2>
+<ol>
+<li><strong>推理模型调用点清单模板</strong>（CSV 格式，列：文件路径、行号、模型名、当前端点、是否已迁移）</li>
+<li><strong>适配函数代码片段</strong>（Python / Node.js 版本）</li>
+<li><strong>参数映射表</strong>（旧端点字段 → 新端点字段，含备注）</li>
+<li><strong>集成测试脚本</strong>（pytest 用例，可直接运行）</li>
+<li><strong>灰度发布 Check-list</strong>（包含：监控面板链接、回滚命令、告警阈值）</li>
+</ol>
+</article>
+<article class="signal-card signal-card-5">
+<h2 id="哪些地方-agent-能接管">哪些地方 agent 能接管</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>环节</th>
+<th>自动化</th>
+<th>人工闸门</th>
+</tr></thead><tbody>
+<tr>
+<td>Step 1：搜索调用点</td>
+<td>✅ grep / IDE 搜索</td>
+<td>人工 review 动态 model 字符串</td>
+</tr>
+<tr>
+<td>Step 2：编写适配函数</td>
+<td>❌ 需要理解业务逻辑和字段映射</td>
+<td>人工编码并 review</td>
+</tr>
+<tr>
+<td>Step 3：运行集成测试</td>
+<td>✅ pytest 自动化</td>
+<td>人工判断测试结果是否合理</td>
+</tr>
+<tr>
+<td>Step 3：灰度流量切换</td>
+<td>✅ 脚本或 CI/CD 自动部署</td>
+<td>人工观察告警并决定是否全量</td>
+</tr>
+<tr>
+<td>回滚</td>
+<td>✅ 一键回滚脚本</td>
+<td>人工触发</td>
+</tr>
+</tbody></table></div>
+<p><strong>失败模式示例</strong>：</p>
+<ul>
+<li><strong>输入空响应</strong>：新端点在特定 model 下返回 <code>output</code> 为空列表。自动化验证将报错，人工需确认是否是 API 本身的黑灰度问题，并决定是否降级到旧端点。</li>
+<li><strong>400 Bad Request</strong>：因 <code>input</code> 字段中包含了不被新端点支持的 <code>role</code>（如 <code>function</code>），人工需修改适配逻辑。</li>
+<li><strong>性能退化</strong>：灰度期间平均延迟增加 50%，人工需确认是否因 endpoint 路由延迟或 token 计算变化，必要时联系 OpenAI 支持。</li>
+</ul>
+</article>
+<article class="signal-card signal-card-1">
+<h2 id="复盘和适用边界">复盘和适用边界</h2>
+<p><strong>复盘点</strong>：</p>
+<ul>
+<li>迁移后能否移除旧的 <code>messages</code> 参数映射？是否所有推理模型都稳定工作？</li>
+<li>后续新推理模型发布时（如 o5），是否可以直接走新端点而无需变更？</li>
+<li>本次迁移是否暴露了原有代码中与模型强耦合的设计问题（如硬编码 endpoint）？</li>
+</ul>
+<p><strong>适用边界</strong>：</p>
+<ul>
+<li>此拆解适用于任何使用 OpenAI 推理模型的代码库，无论语言（Python/JS/Go 等均可抽象适配）。</li>
+<li>如果项目使用了第三方封装 SDK（如 LangChain），则需要单独确认该 SDK 是否已自动处理端点迁移，若未处理则仍需手动修改。</li>
+<li>如果项目同时使用 Azure OpenAI 服务，端点格式可能有差异，需参考 Azure 文档额外处理。</li>
+</ul>
+</article>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

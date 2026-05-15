@@ -17,8 +17,8 @@ export function WeeklySignalsPage({ issue }) {
         <Link className="brand" href="/">MediaOperator</Link>
         <nav>
           <Link href="/columns/weekly-signals/ep02/">Weekly Signals</Link>
-          <span>组织周观察</span>
-          <span>DRI 拆解</span>
+          <Link href="/columns/organization-weekly/ep01/">组织周观察</Link>
+          <Link href="/columns/dri-breakdown/ep01/">DRI 拆解</Link>
         </nav>
       </section>
 
