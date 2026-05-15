@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Signals · EP03｜安全、监管与开源治理的交叉</title>
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --text-muted: #7a7a9a;
+            --accent: #2b5a8c;
+            --accent-light: #e8f0f8;
+            --border: #e2e6ee;
+            --pill-bg: #eef2f7;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+            --radius: 14px;
+            --max-width: 720px;
+            --font-base: 16px;
+            --line-height-body: 1.7;
+            --line-height-heading: 1.3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            font-size: var(--font-base);
+            line-height: var(--line-height-body);
+            padding: 0 16px 48px;
+            -webkit-font-smoothing: antialiased;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            padding: 40px 0 28px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .hero__label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+        }
+
+        .hero__title {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.28;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .hero__lead {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            max-width: 90%;
+        }
+
+        .hero__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .hero__pill {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--pill-bg);
+            padding: 3px 12px;
+            border-radius: 16px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== Signal Cards ===== */
+        .signals {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px 20px 20px;
+            transition: box-shadow 0.15s;
+            border: 1px solid var(--border);
+        }
+
+        .card__header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card__icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 2px;
+        }
+
+        .card__icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .card__icon--placeholder {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: #e8ecf2;
+        }
+
+        .card__number {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 0 10px;
+            border-radius: 10px;
+            line-height: 22px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .card__title-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card__title {
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.35;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .card__source-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .card__fact {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+            padding: 12px 14px;
+            background: #f5f7fb;
+            border-radius: 10px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .card__judgment {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            padding: 0 0 0 2px;
+            border-left: none;
+            background: transparent;
+        }
+
+        .card__judgment::before {
+            content: "我们的判断：";
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .card__explanation {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .card__explanation p {
+            margin-bottom: 10px;
+        }
+
+        .card__explanation p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card__action {
+            font-size: 14px;
+            color: var(--text-primary);
+            background: #f0f5fb;
+            padding: 12px 14px;
+            border-radius: 10px;
+            line-height: 1.6;
+            border-left: 3px solid #1a7a5a;
+        }
+
+        .card__action::before {
+            content: "执行建议：";
+            font-weight: 700;
+            color: #1a7a5a;
+        }
+
+        .card__source-link {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            text-decoration: none;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        .card__source-link:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* ===== Weekly Summary ===== */
+        .summary {
+            margin-top: 40px;
+            padding: 28px 20px 24px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .summary__title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .summary__body {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .summary__body p {
+            margin-bottom: 12px;
+        }
+
+        .summary__body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary__watch {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .summary__watch-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .summary__watch-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary__watch-list li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding: 4px 0 4px 18px;
+            position: relative;
+        }
+
+        .summary__watch-list li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* ===== Source Footer ===== */
+        .source-footer {
+            margin-top: 40px;
+            padding: 20px 0 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .source-footer__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .source-footer__list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .source-footer__list li {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            padding: 3px 0;
+            word-break: break-all;
+        }
+
+        .source-footer__list a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px dotted transparent;
+        }
+
+        .source-footer__list a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 480px) {
+            body {
+                padding: 0 12px 36px;
+            }
+
+            .hero {
+                padding: 28px 0 20px;
+                margin-bottom: 24px;
+            }
+
+            .hero__title {
+                font-size: 22px;
+                line-height: 1.3;
+            }
+
+            .hero__lead {
+                font-size: 15px;
+            }
+
+            .card {
+                padding: 18px 16px 16px;
+            }
+
+            .card__title {
+                font-size: 16px;
+            }
+
+            .card__fact,
+            .card__explanation,
+            .card__judgment {
+                font-size: 14px;
+            }
+
+            .card__action {
+                font-size: 13px;
+                padding: 10px 12px;
+            }
+
+            .card__icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            .summary {
+                padding: 20px 16px 18px;
+            }
+
+            .summary__title {
+                font-size: 18px;
+            }
+
+            .summary__body {
+                font-size: 14px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hero__title {
+                font-size: 32px;
+            }
+
+            .card {
+                padding: 28px 28px 24px;
+            }
+
+            .card__title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ========== HERO ========== -->
+        <header class="hero">
+            <div class="hero__label">Weekly Signals · EP03</div>
+            <h1 class="hero__title">安全、监管与开源治理的交叉正在重塑技术生态</h1>
+            <p class="hero__lead">本期 10 个 signal 共同指向一个核心变化：技术生态的「软性规则」——社会契约、安全策略、监管框架——正在变得和硬性技术能力同等重要。</p>
+            <div class="hero__meta">
+                <span class="hero__pill">10 个 signal</span>
+                <span class="hero__pill">AI-native 组织</span>
+                <span class="hero__pill">安全与治理</span>
+                <span class="hero__pill">开放生态</span>
+                <span class="hero__pill">2026-05-14</span>
+            </div>
+        </header>
+
+        <!-- ========== SIGNALS ========== -->
+        <section class="signals">
+
+            <!-- 01 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://www.jeffgeerling.com/favicon.ico" alt="jeffgeerling.com" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='J';">
+                    </div>
+                    <span class="card__number">01</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">Bambu Lab 正在滥用开源社会契约</div>
+                        <div class="card__source-label">Jeff Geerling</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    开发者 Jeff Geerling 公开指出，Bambu Lab 正在将其始终在线的云解决方案设为新默认配置，导致用户被厂商锁定。他提供了阻止云连接和替代固件方案的具体步骤。
+                </div>
+
+                <div class="card__judgment">
+                    开源硬件的信任建立在用户控制权之上，一旦厂商单方面移除本地控制选项，就等于撕毁了与社会契约的约定。
+                </div>
+
+                <div class="card__explanation">
+                    <p>这个案例揭示了硬件厂商在开源生态中的关键治理问题。当厂商利用固件更新强制改变用户的使用方式时，用户实际上失去了对自己设备的控制权。对于 AI-native 组织而言，这意味着在选择底层基础设施时，必须将可移植性和本地控制权纳入评估标准。</p>
+                    <p>Bambu Lab 的做法并非孤例，它反映了当前 IoT 和硬件领域一个更广泛的趋势：厂商正在用"云服务"的名义逐步回收用户自主权。对内容 agent 工作流的启发是：确保你的 agent 依赖的底层平台不会突然改变 API 或使用条款。</p>
+                </div>
+
+                <div class="card__action">
+                    在采购任何硬件或云服务前，明确要求供应商提供本地 API 或离线操作能力，并将其写入合同条款。
+                </div>
+
+                <a class="card__source-link" href="https://www.jeffgeerling.com/blog/2026/bambu-lab-abusing-open-source-social-contract/" target="_blank" rel="noopener">来源 → jeffgeerling.com</a>
+            </article>
+
+            <!-- 02 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://krebsonsecurity.com/favicon.ico" alt="KrebsOnSecurity" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='K';">
+                    </div>
+                    <span class="card__number">02</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">2026 年 5 月补丁星期二：AI 系统同样易受社会工程攻击</div>
+                        <div class="card__source-label">KrebsOnSecurity</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    KrebsOnSecurity 发布报告指出，AI 平台可能像人类一样容易受到社会工程攻击，但 AI 在查找人类代码中的安全漏洞方面表现出色。本月补丁涉及多个 AI 系统的安全更新。
+                </div>
+
+                <div class="card__judgment">
+                    AI 同时作为安全风险来源和安全增强工具的双重角色，正在重新定义组织安全治理的边界。
+                </div>
+
+                <div class="card__explanation">
+                    <p>安全团队必须将 AI 系统纳入现有的漏洞管理和应急响应流程。AI 不仅是被保护的对象（因为它可能被社会工程攻击），也是保护的执行者（因为它能高效发现代码漏洞）。对于组织来说，这意味着安全治理框架需要同时覆盖这两个方向：既要防范针对 AI 系统的攻击，也要利用 AI 增强安全能力。</p>
+                    <p>对 AI-native 组织而言，安全团队需要具备 AI 素养，否则无法有效评估 AI 系统的安全状态。</p>
+                </div>
+
+                <div class="card__action">
+                    将 AI 系统的漏洞扫描纳入月度补丁管理流程，并针对 AI 模型开展专门的社会工程攻击测试。
+                </div>
+
+                <a class="card__source-link" href="https://krebsonsecurity.com/2026/05/patch-tuesday-may-2026-edition/" target="_blank" rel="noopener">来源 → krebsonsecurity.com</a>
+            </article>
+
+            <!-- 03 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://www.politico.eu/favicon.ico" alt="Politico EU" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='P';">
+                    </div>
+                    <span class="card__number">03</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">欧盟数字法规正在重塑硅谷的竞争格局</div>
+                        <div class="card__source-label">Politico EU</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    Politico 报道，欧盟委员会执行副主席 Teresa Ribera 访美时表示，欧盟的《数字市场法案》（DMA）等标志性科技法规是"成功案例"，正在开始平衡硅谷与欧洲之间的竞争环境。
+                </div>
+
+                <div class="card__judgment">
+                    DMA 的执法效果已从政策声明进入可感知的市场结构调整阶段，组织需要将其视为合规基线而非远期风险。
+                </div>
+
+                <div class="card__explanation">
+                    <p>这条 signal 表明欧盟的数字监管不再只是"纸上法律"，而是已经开始产生实际的市场影响。对于在欧盟运营或计划进入欧盟市场的科技公司，DMA 合规必须从法务部门的专项工作升级为产品策略的核心组成部分。</p>
+                    <p>对 AI-native 组织而言，这意味着 agent 的工作流设计需要从一开始就考虑数据可移植性、互操作性和用户选择权等合规要求，否则后期改造的成本极高。</p>
+                </div>
+
+                <div class="card__action">
+                    立即审查你的产品是否涉及 DMA 定义的"核心平台服务"范畴，并建立合规路线图，重点关注数据可移植性和第三方互操作接口。
+                </div>
+
+                <a class="card__source-link" href="https://www.politico.eu/article/eu-big-tech-rulebook-shifting-digital-economy-ribera-dma-pulse-forum/" target="_blank" rel="noopener">来源 → politico.eu</a>
+            </article>
+
+            <!-- 04 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://simonwillison.net/favicon.ico" alt="Simon Willison" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='S';">
+                    </div>
+                    <span class="card__number">04</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">CSP 允许列表拦截实验：一种新的安全绕过技术</div>
+                        <div class="card__source-label">Simon Willison</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    Simon Willison 发布了一个 CSP 允许列表实验工具，展示了如何在受 CSP 保护的沙箱 iframe 中加载应用，并通过自定义 fetch() 拦截 CSP 错误以实现允许列表的精细控制。
+                </div>
+
+                <div class="card__judgment">
+                    这个实验证明了 CSP 的允许列表机制存在可被系统化利用的漏洞，安全策略的"白名单"思路需要重新审视。
+                </div>
+
+                <div class="card__explanation">
+                    <p>对于开发者来说，CSP 一直是被广泛推荐的安全实践，但这个实验展示了即使配置了 CSP，攻击者仍可能通过精心构造的请求绕过保护。这提醒安全团队不能仅依赖单一的安全机制，而需要采用深度防御策略。</p>
+                    <p>对于内容 agent 工作流，如果 agent 需要嵌入第三方内容或执行动态脚本，必须理解 CSP 的局限性并采取额外的隔离措施。</p>
+                </div>
+
+                <div class="card__action">
+                    在现有 CSP 策略基础上，增加基于行为的异常检测机制，并定期使用此类实验工具测试你的 CSP 配置有效性。
+                </div>
+
+                <a class="card__source-link" href="https://simonwillison.net/2026/May/13/csp-allow/#atom-everything" target="_blank" rel="noopener">来源 → simonwillison.net</a>
+            </article>
+
+            <!-- 05 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://simonwillison.net/favicon.ico" alt="Simon Willison" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='S';">
+                    </div>
+                    <span class="card__number">05</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">LLM 工具 0.32a2 发布：OpenAI API 端点迁移的关键更新</div>
+                        <div class="card__source-label">Simon Willison</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    发布的 llm 工具 0.32a2 版本中，最重要的变化是：大多数支持推理的 OpenAI 模型现在使用 /v1/responses 端点而非 /v1/chat/completions。
+                </div>
+
+                <div class="card__judgment">
+                    这标志着 OpenAI 正在将推理能力从"附加功能"升级为 API 的一等公民，对构建 agent 的开发者是必须跟进的架构变更。
+                </div>
+
+                <div class="card__explanation">
+                    <p>API 端点的迁移不仅仅是 URL 的变化，它可能意味着请求/响应格式、计费方式和能力边界的变化。对于依赖 OpenAI 推理模型的 agent 工作流，这个更新直接影响生产环境的稳定性。开发者需要测试新端点的行为差异，并更新代码以保持兼容。</p>
+                    <p>这提醒我们，agent 的依赖管理不仅要关注库版本，还要关注底层 API 的演进路线。</p>
+                </div>
+
+                <div class="card__action">
+                    立即在你的 OpenAI 集成代码中测试 /v1/responses 端点，并建立 API 版本监控机制，以便在端点变更时自动触发测试和迁移流程。
+                </div>
+
+                <a class="card__source-link" href="https://simonwillison.net/2026/May/12/llm/#atom-everything" target="_blank" rel="noopener">来源 → simonwillison.net</a>
+            </article>
+
+            <!-- 06 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://nesbitt.io/favicon.ico" alt="nesbitt.io" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='N';">
+                    </div>
+                    <span class="card__number">06</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">curl 的披露策略如何过滤 AI 安全扫描器的误报</div>
+                        <div class="card__source-label">nesbitt.io</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    开发者博客报道，curl 项目利用其成熟的漏洞披露策略，在源头过滤了 AI 安全扫描器生成的大量误报，确保仅处理真实的安全问题。
+                </div>
+
+                <div class="card__judgment">
+                    AI 安全扫描器提升了漏洞发现效率，但也带来了大量误报，传统的披露策略反而成为过滤噪音的关键基础设施。
+                </div>
+
+                <div class="card__explanation">
+                    <p>这个故事揭示了 AI 工具与传统治理流程之间的微妙关系。AI 可以快速扫描代码并生成大量潜在问题，但如果没有一个成熟的分诊机制，这些报告只会淹没真正的安全团队。curl 的案例表明，一个定义清晰的披露策略本身就是一个高效的过滤器。</p>
+                    <p>对于 AI-native 组织，这意味着不能直接让 AI 的输出流入决策流程，而需要设计分层审核机制。对内容 agent 工作流而言，同样需要在 agent 的输出和最终发布之间设置内容审核层。</p>
+                </div>
+
+                <div class="card__action">
+                    为你的 AI 安全扫描工具配置自定义规则和阈值，并建立一个由人工主导的分诊流程，确保 AI 生成的报告在进入正式工单前经过筛选。
+                </div>
+
+                <a class="card__source-link" href="https://nesbitt.io/2026/05/12/not-a-security-issue.html" target="_blank" rel="noopener">来源 → nesbitt.io</a>
+            </article>
+
+            <!-- 07 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://danieldelaney.net/favicon.ico" alt="danieldelaney.net" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='D';">
+                    </div>
+                    <span class="card__number">07</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">理想化失败：从完美设计到测试驱动的 UI 思维转变</div>
+                        <div class="card__source-label">Daniel Delaney</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    设计师 Daniel Delaney 反思了自己过去的设计方式：先在纸面或 Figma 上想象所有失败模式，设计完美流程，然后交给开发。他发现这种"先完美后验证"的方式效率低下，转而倡导测试驱动的设计方法。
+                </div>
+
+                <div class="card__judgment">
+                    "先完美后验证"的设计模式在 AI 驱动的快速迭代环境中已经不再适用，测试驱动的设计方法更能适应不确定性。
+                </div>
+
+                <div class="card__explanation">
+                    <p>这个反思对于 AI-native 组织特别有价值，因为 AI 产品的行为往往具有不确定性，无法在设计阶段完全预判所有交互模式。传统的"设计-开发-测试"串行流程在这种场景下效率极低。</p>
+                    <p>测试驱动的设计方法意味着先用最小可测试的版本来验证核心假设，然后基于实际反馈进行迭代。这对于 agent 工作流的设计同样适用：不要试图预先设计 agent 的所有行为，而是先让它运行起来，然后通过监控和反馈不断调整。</p>
+                </div>
+
+                <div class="card__action">
+                    在下一个 AI 功能开发中，先构建一个只有核心逻辑的测试原型（不包含 UI 优化），用真实用户数据验证后再投入设计资源。
+                </div>
+
+                <a class="card__source-link" href="https://danieldelaney.net/ideal-failures/" target="_blank" rel="noopener">来源 → danieldelaney.net</a>
+            </article>
+
+            <!-- 08 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://help.kagi.com/favicon.ico" alt="Kagi" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='K';">
+                    </div>
+                    <span class="card__number">08</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">Kagi Snaps：用短代码实现精准搜索</div>
+                        <div class="card__source-label">Kagi 帮助文档</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    Kagi 搜索引擎的 Snaps 功能允许用户使用短代码（如 @r 代表 Reddit）来限制搜索范围。例如，输入 "@r headphones" 将只在 Reddit 中搜索 "headphones"。
+                </div>
+
+                <div class="card__judgment">
+                    搜索效率的微小改进在 agent 工作流中会被成倍放大，Kagi Snaps 展示了"搜索语法作为 API"的设计思路。
+                </div>
+
+                <div class="card__explanation">
+                    <p>对于普通用户来说，这只是一个方便的搜索技巧。但对于构建信息检索 agent 的开发者来说，Kagi Snaps 提供了一种可编程的搜索约束机制。如果 agent 能够自动使用这类短代码来限定搜索来源，就能显著提升检索结果的相关性。</p>
+                    <p>这提示我们，搜索工具的设计正在从"面向人类"转向"面向 agent"，未来更多的搜索功能会以 API 友好的方式暴露。</p>
+                </div>
+
+                <div class="card__action">
+                    如果你使用 Kagi 作为 agent 的搜索引擎，立即在代码中将 Snaps 短代码集成到搜索查询构建逻辑中，以提升检索精度。
+                </div>
+
+                <a class="card__source-link" href="https://help.kagi.com/kagi/features/snaps.html" target="_blank" rel="noopener">来源 → help.kagi.com</a>
+            </article>
+
+            <!-- 09 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://www.reuters.com/favicon.ico" alt="Reuters" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='R';">
+                    </div>
+                    <span class="card__number">09</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">广播公司联合敦促欧盟用 DMA 监管智能电视平台</div>
+                        <div class="card__source-label">Reuters</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    Reuters 报道，多家广播公司向欧盟呼吁，要求将 Google、Amazon、Apple 和 Samsung 的智能电视平台和虚拟助手纳入《数字市场法案》的监管范围，因为这些平台没有一家来自欧洲。
+                </div>
+
+                <div class="card__judgment">
+                    智能电视正成为继手机和 PC 之后的第三个"核心平台战场"，DMA 的监管范围扩展将直接影响内容分发的底层规则。
+                </div>
+
+                <div class="card__explanation">
+                    <p>广播公司的诉求反映了智能电视平台在内容分发中的重要性日益上升。如果 DMA 将智能电视平台纳入监管，将意味着这些平台的数据收集、应用分发和默认设置都将受到严格限制。</p>
+                    <p>对于内容生产者和分发者来说，这既是机会（更公平的竞争环境）也是风险（需要适应新的合规要求）。对 AI-native 组织而言，如果 agent 涉及音视频内容的分发，需要关注智能电视平台的合规动态。</p>
+                </div>
+
+                <div class="card__action">
+                    如果你的产品在智能电视平台上有分发渠道，评估 DMA 扩展监管可能带来的影响，并提前准备合规方案。
+                </div>
+
+                <a class="card__source-link" href="https://www.reuters.com/sustainability/boards-policy-regulation/eu-digital-rules-should-apply-big-techs-smart-tvs-broadcasters-tell-antitrust-2026-03-23/" target="_blank" rel="noopener">来源 → reuters.com</a>
+            </article>
+
+            <!-- 10 -->
+            <article class="card">
+                <div class="card__header">
+                    <div class="card__icon">
+                        <img src="https://shkspr.mobi/favicon.ico" alt="shkspr.mobi" loading="lazy" onerror="this.parentElement.classList.add('card__icon--placeholder');this.parentElement.textContent='S';">
+                    </div>
+                    <span class="card__number">10</span>
+                    <div class="card__title-wrap">
+                        <div class="card__title">极简 SVG 迷你折线图：一段代码实现数据可视化</div>
+                        <div class="card__source-label">shkspr.mobi</div>
+                    </div>
+                </div>
+
+                <div class="card__fact">
+                    开发者博客展示了如何使用极简的 SVG 代码创建迷你折线图（sparkline），无需任何外部库，只使用纯 SVG 元素。
+                </div>
+
+                <div class="card__judgment">
+                    在 agent 生成的内容中，数据可视化不应依赖外部库，SVG 的原生能力足以满足 80% 的轻量可视化需求。
+                </div>
+
+                <div class="card__explanation">
+                    <p>这段代码的价值不在于技术复杂度，而在于它展示了如何用最少的资源实现最常见的数据可视化需求。对于内容 agent 来说，如果需要在生成的文本中嵌入数据图表，使用纯 SVG 比依赖 Chart.js 或 D3.js 更加轻量和可靠，尤其是在输出需要被嵌入到富文本或邮件中的场景。</p>
+                    <p>这个技巧可以显著降低 agent 输出的渲染复杂度和加载时间。</p>
+                </div>
+
+                <div class="card__action">
+                    将这段 SVG sparkline 代码封装为一个可复用的函数，集成到你的内容 agent 的模板引擎中，用于在输出中动态生成小型数据趋势图。
+                </div>
+
+                <a class="card__source-link" href="https://shkspr.mobi/blog/2026/05/stupidly-simple-svg-sparklines/" target="_blank" rel="noopener">来源 → shkspr.mobi</a>
+            </article>
+
+        </section>
+
+        <!-- ========== WEEKLY SUMMARY ========== -->
+        <section class="summary">
+            <h2 class="summary__title">本周我们在看什么</h2>
+            <div class="summary__body">
+                <p>本期 10 条 signal 共同指向一个核心判断：<strong>安全、监管与开源治理的交叉正在推动技术生态的结构性变化</strong>。无论是 Bambu Lab 的云锁定、AI 系统的安全漏洞，还是 DMA 的执法扩展，都在提醒我们：技术生态的"软性规则"——社会契约、安全策略、监管框架——正在变得和硬性技术能力同等重要。</p>
+                <p>对 AI-native 组织和内容 agent 工作流而言，这意味着不能只关注模型能力和工程效率，还需要建立与之匹配的治理结构：从供应商评估的安全条款，到 agent 输出的审核分层，再到 API 依赖的版本监控。技术越强大，围绕它的规则体系就越不能忽视。</p>
+
+                <div class="summary__watch">
+                    <div class="summary__watch-title">后续观察方向</div>
+                    <ul class="summary__watch-list">
+                        <li>开源硬件领域的厂商锁定与社区反击是否会催生新的治理模型</li>
+                        <li>AI 作为安全工具与安全风险的双重角色如何改变组织的安全架构</li>
+                        <li>DMA 的监管范围是否会扩展到智能电视等新平台，以及这对内容分发的长期影响</li>
+                        <li>从 CSP 实验和 curl 披露策略看，传统的治理机制如何适应 AI 工具带来的噪音</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SOURCE FOOTER ========== -->
+        <footer class="source-footer">
+            <div class="source-footer__title">事实来源备忘</div>
+            <ul class="source-footer__list">
+                <li>Bambu Lab 滥用开源社会契约：Jeff Geerling，2026-05-12，<a href="https://www.jeffgeerling.com/blog/2026/bambu-lab-abusing-open-source-social-contract/" target="_blank" rel="noopener">链接</a></li>
+                <li>2026 年 5 月补丁星期二：KrebsOnSecurity，2026-05-12，<a href="https://krebsonsecurity.com/2026/05/patch-tuesday-may-2026-edition/" target="_blank" rel="noopener">链接</a></li>
+                <li>Teresa Ribera 访美与 DMA 成效：Politico EU，2026-04 中旬，<a href="https://www.politico.eu/article/eu-big-tech-rulebook-shifting-digital-economy-ribera-dma-pulse-forum/" target="_blank" rel="noopener">链接</a></li>
+                <li>CSP 允许列表拦截实验：Simon Willison，2026-05-13，<a href="https://simonwillison.net/2026/May/13/csp-allow/#atom-everything" target="_blank" rel="noopener">链接</a></li>
+                <li>LLM 0.32a2 发布：Simon Willison，2026-05-12，<a href="https://simonwillison.net/2026/May/12/llm/#atom-everything" target="_blank" rel="noopener">链接</a></li>
+                <li>curl 披露策略过滤 AI 扫描误报：nesbitt.io，2026-05-12，<a href="https://nesbitt.io/2026/05/12/not-a-security-issue.html" target="_blank" rel="noopener">链接</a></li>
+                <li>理想化失败与测试驱动设计：Daniel Delaney，2026-05-13，<a href="https://danieldelaney.net/ideal-failures/" target="_blank" rel="noopener">链接</a></li>
+                <li>Kagi Snaps 短代码搜索：Kagi 帮助文档，日期待确认，<a href="https://help.kagi.com/kagi/features/snaps.html" target="_blank" rel="noopener">链接</a></li>
+                <li>广播公司敦促欧盟用 DMA 监管智能电视：Reuters，2026-03-23，<a href="https://www.reuters.com/sustainability/boards-policy-regulation/eu-digital-rules-should-apply-big-techs-smart-tvs-broadcasters-tell-antitrust-2026-03-23/" target="_blank" rel="noopener">链接</a></li>
+                <li>极简 SVG 迷你折线图：shkspr.mobi，2026-05-13，<a href="https://shkspr.mobi/blog/2026/05/stupidly-simple-svg-sparklines/" target="_blank" rel="noopener">链接</a></li>
+            </ul>
+        </footer>
+
+    </div>
+</body>
+</html>
